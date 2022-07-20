@@ -1,3 +1,4 @@
+// App state
 let state = {};
 import { API_URL_BERLIN } from './config';
 import { API_URL_LONDON } from './config';
@@ -6,6 +7,8 @@ import { BUTTONS_ARRAY } from './config';
 import { container } from './weatherView';
 import * as weatherView from './weatherView';
 import { getJSON } from './helpers';
+import { clearContainer, manipulateOpacity } from './helpers';
+import { buttonsAppearing } from './buttonsView';
 
 // API Call
 export const getWeatherData = async function (url, city) {
@@ -22,24 +25,32 @@ export const getWeatherData = async function (url, city) {
       sunrise: daily.sunrise,
       sunset: daily.sunset,
     };
-
-    // Render weather data
-    weatherView.renderWeatherData(state);
     console.log(daily);
-    console.log(data);
-    console.log(state);
+
+    // Render weather data for 1 day
+    // weatherView.renderWeatherData(state);
+
+    // Render weather for 1 week
+    weatherView.renderWeekWeather(state);
+
+    // console.log(daily);
   } catch (err) {
     console.log(err);
   }
 };
 
-// Init function
-const init = function () {};
+// Control buttons appearing
+const controlButtons = function () {
+  buttonsAppearing(BUTTONS_ARRAY);
+};
+
+const init = function () {
+  controlButtons();
+};
 
 init();
 
 // Add event listeners
-
 BUTTONS_ARRAY.forEach(btn => {
   btn.addEventListener('click', function (e) {
     container.classList.add('hidden');
@@ -53,4 +64,32 @@ BUTTONS_ARRAY.forEach(btn => {
         getWeatherData(API_URL_PARIS, 'Paris');
     }, 500);
   });
+});
+
+// Manipulate hover state
+container.addEventListener('mouseover', function (e) {
+  //  Check if event happened on weather card
+  if (!e.target.closest('.weather-card')) return;
+  const card = e.target.closest('.weather-card');
+  card.classList.add('add-scale');
+
+  // Selecting weather cards
+  const weatherCards = document.querySelectorAll('.weather-card');
+
+  // change opacity
+  manipulateOpacity(weatherCards, 0.4);
+});
+
+// Manipulate hover state
+container.addEventListener('mouseout', function (e) {
+  //  Check if event happened on weather card
+  if (!e.target.closest('.weather-card')) return;
+  const card = e.target.closest('.weather-card');
+  card.classList.remove('add-scale');
+
+  // Selecting weather cards
+  const weatherCards = document.querySelectorAll('.weather-card');
+
+  // change opacity
+  manipulateOpacity(weatherCards);
 });
