@@ -1,14 +1,14 @@
 // App state
 let state = {};
-import { API_URL_BERLIN } from './config';
-import { API_URL_LONDON } from './config';
-import { API_URL_PARIS } from './config';
-import { BUTTONS_ARRAY } from './config';
-import { container } from './weatherView';
-import * as weatherView from './weatherView';
-import { getJSON } from './helpers';
-import { clearContainer, manipulateOpacity } from './helpers';
-import { buttonsAppearing } from './buttonsView';
+import { API_URL_BERLIN } from './src/js/config';
+import { API_URL_LONDON } from './src/js/config';
+import { API_URL_PARIS } from './src/js/config';
+import { BUTTONS_ARRAY } from './src/js/config';
+import { container } from './src/js/weatherView';
+import * as weatherView from './src/js/weatherView';
+import { getJSON } from './src/js/helpers';
+import { clearContainer, manipulateOpacity } from './src/js/helpers';
+import { buttonsAppearing } from './src/js/buttonsView';
 
 // API Call
 export const getWeatherData = async function (url, city) {
