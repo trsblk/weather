@@ -1,6 +1,5 @@
 // Renden weather
 export const container = document.querySelector('.container');
-import { clearContainer } from './helpers';
 
 // Render weather card for 1 day
 export const renderWeatherData = function (data) {
@@ -36,18 +35,21 @@ export const renderWeatherData = function (data) {
   container.insertAdjacentHTML('afterbegin', markup);
 };
 
+// Clearing container
+export const clearContainer = function () {
+  container.innerText = '';
+};
+
 // Render spinner
 export const renderSpinner = function () {
   html = `  <div class="spinner">
-                    <div class="lds-dual-ring"></div>
-                </div> `;
+              <div class="lds-dual-ring"></div>
+            </div> `;
   container.insertAdjacentHTML('afterbegin', html);
 };
 
 // Render weather data for 1 week
 export const renderWeekWeather = function (data) {
-  console.log(typeof data.tempMax);
-
   let markup = '';
   for (let i = 0; i < 7; i++) {
     markup += `
@@ -83,4 +85,47 @@ export const renderWeekWeather = function (data) {
   clearContainer();
   document.querySelector('html').style.height = '150%';
   container.insertAdjacentHTML('afterbegin', markup);
+};
+
+// Manipulate hover state
+container.addEventListener('mouseover', function (e) {
+  //  Check if event happened on weather card
+  if (!e.target.closest('.weather-card')) return;
+  const card = e.target.closest('.weather-card');
+  card.classList.add('add-scale');
+
+  // Selecting weather cards
+  const weatherCards = document.querySelectorAll('.weather-card');
+
+  // change opacity
+  manipulateOpacity(weatherCards, 0.4);
+});
+
+// Manipulate hover state
+container.addEventListener('mouseout', function (e) {
+  //  Check if event happened on weather card
+  if (!e.target.closest('.weather-card')) return;
+  const card = e.target.closest('.weather-card');
+  card.classList.remove('add-scale');
+
+  // Selecting weather cards
+  const weatherCards = document.querySelectorAll('.weather-card');
+
+  // change opacity
+  manipulateOpacity(weatherCards);
+});
+
+const manipulateOpacity = function (cards, opacity = 1) {
+  if (opacity < 1)
+    cards.forEach(card => {
+      if (!card.classList.contains('add-scale'))
+        card.style.opacity = `${opacity}`;
+    });
+
+  if (opacity === 1) {
+    cards.forEach(card => {
+      if (!card.classList.contains('add-scale'))
+        card.style.opacity = `${opacity}`;
+    });
+  }
 };
